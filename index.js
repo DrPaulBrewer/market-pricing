@@ -48,9 +48,12 @@ function marshallianCEPriceRange(inframarginalBuyPrice,
 				 extramarginalBuyPrice,
 				 extramarginalSellPrice){
     'use strict';
-    if (extramarginalBuyPrice > inframarginalBuyPrice) throw   "marketPricing.marshallianCEPriceRange: invalid buy prices, extramarginal price must not be greater than inframarginal price";
-    if (extramarginalSellPrice < inframarginalSellPrice) throw "marketPricing.marshallianCEPriceRange: invalid sell prices, extramarginal price must not be less than inframarginal price";
-    if (extramarginalBuyPrice >= extramarginalSellPrice) throw "marketPricing.marshallianCEPriceRange: invalid extramarginal prices, extramarginal buy price should not equal or exceed extramarginal sell price";
+    if (extramarginalBuyPrice > inframarginalBuyPrice) 
+	throw new Error("marketPricing.marshallianCEPriceRange: invalid buy prices, extramarginal price must not be greater than inframarginal price");
+    if (extramarginalSellPrice < inframarginalSellPrice) 
+	throw new Error("marketPricing.marshallianCEPriceRange: invalid sell prices, extramarginal price must not be less than inframarginal price");
+    if (extramarginalBuyPrice >= extramarginalSellPrice) 
+	throw new Error("marketPricing.marshallianCEPriceRange: invalid extramarginal prices, extramarginal buy price should not equal or exceed extramarginal sell price");
     var cePriceRange = [
 	(Math.max(extramarginalBuyPrice, inframarginalSellPrice) || inframarginalSellPrice),
 	(Math.min(extramarginalSellPrice, inframarginalBuyPrice) || inframarginalBuyPrice)
@@ -67,7 +70,7 @@ function cross(buyQueue,sellQueue,bpCol,bqCol,spCol,sqCol){
 	(bqCol===undefined) ||
 	(spCol===undefined) ||
 	(sqCol===undefined))
-	throw "marketPricing.cross: missing 1 or more col parameters: "+([bpCol,bqCol,spCol,sqCol].join(","));
+	throw new Error("marketPricing.cross: missing 1 or more col parameters: "+([bpCol,bqCol,spCol,sqCol].join(",")));
     var bidx=0,sidx=0,bl=buyQueue.length,sl=sellQueue.length;
     if ((!bl) || (!sl)) return undefined;
     var buyQ=[],sellQ=[],deltaQ=0,totalQ=0;
@@ -114,7 +117,7 @@ function sequential(buyQueue,sellQueue,tCol,bpCol,bqCol,spCol,sqCol){
 	(bqCol===undefined) ||
 	(spCol===undefined) ||
 	(sqCol===undefined))
-	throw "marketPricing.cross: missing 1 or more col parameters: "+([tCol,bpCol,bqCol,spCol,sqCol].join(","));
+	throw new Error("marketPricing.cross: missing 1 or more col parameters: "+([tCol,bpCol,bqCol,spCol,sqCol].join(",")));
     var totalQ,prices,buyQ,sellQ,i,l,op; 
     if ((!buyQueue.length) || 
 	(!sellQueue.length) ||
@@ -127,12 +130,12 @@ function sequential(buyQueue,sellQueue,tCol,bpCol,bqCol,spCol,sqCol){
     prices = [];
     if (buyQueue[0][tCol]<sellQueue[0][tCol]){
 	op = 's';
-	if (sellQ[1]) throw "marketPricing.sequential: non-sequential trades on sell side";
+	if (sellQ[1]) throw new Error("marketPricing.sequential: non-sequential trades on sell side");
 	for(i=0,l=buyQ.length;i<l;++i)
 	    prices[i] = buyQueue[i][bpCol];
     } else {
 	op = 'b';
-	if (buyQ[1]) throw "marketPricing.sequential: non-sequential trades on buy side";
+	if (buyQ[1]) throw new Error("marketPricing.sequential: non-sequential trades on buy side");
 	for(i=0,l=sellQ.length;i<l;++i)
 	    prices[i] = sellQueue[i][spCol];
     }
