@@ -1,7 +1,11 @@
 market-pricing
 =====
 
-npm Javascript package of micro-economics algorithms for finding competitive equilibrium prices from demand and supply functions or sorted order queues.
+#### Copyright 2016 Paul Brewer, Economic & Financial Technology Consulting LLC <drpaulbrewer@eaftc.com>
+
+#### Open Source License: The MIT License
+
+npm Javascript package of algorithms for finding competitive equilibrium prices from demand and supply functions or sorted order queues.
 
 Intended application:
   
@@ -12,9 +16,7 @@ A building block for
    * developing new kinds of market rules or order types
    * other types of exchange markets, e.g. resource tokens, prediction, etc.
 
-## Copyright 2016 Paul Brewer, Economic & Financial Technology Consulting LLC <drpaulbrewer@eaftc.com>
 
-## Open Source License: The MIT License
 
 ##Installation
 
@@ -30,7 +32,11 @@ Most functions require economically pre-sorted arrays of buy and sell orders.
 That is, buy orders should be sorted price descending, highest price first.
 Sell orders should be sorted price ascending, with the lowest price first.
 
-Each order may be an Array of arbitrary length with as many other fields as necessary for a given application.  Objects might also work, but are untested in this version. Most functions will require the array indexes for "buy price", "sell price", and "quantity".  The sequential() function also requires a timestamp or ordernumber
+Each order may be an Array of arbitrary length with as many other fields as necessary for a given application.  Objects might also work, but are untested in this version. 
+
+`cross`, `demandFromQueue`, and `supplyFromQueue` require the array indexes for "buy price", "buy quantity", "sell price", and "sell quantity".  
+
+The `sequential()` function also requires a timestamp or ordernumber
 index so that it can tell which buy or sell orders occurred before other orders.
 
 Example:
@@ -60,7 +66,7 @@ The price where demand and supply equal is called the competitive equilibrium.
     );
     
 
-Starting with the `buyerList` and `sellerList` in the example above, we can use the helper functions `demandFromQueue` and `supplyFromQueue` to setup for calculting the CE as follows:
+Starting with the `buyerList` and `sellerList` in the example above, we can use the helper functions `demandFromQueue` and `supplyFromQueue` to setup demand and supply functions for calculating the CE as follows:
 
     var qDFunc = marketPricing.demandFromQueue(
         buyerList,
@@ -74,7 +80,7 @@ Starting with the `buyerList` and `sellerList` in the example above, we can use 
 
 
  You might then notice that `qDFunc(0)` returns 2 because both Bob and Fred would
-buy 1 unit, for a total of 2 units,  if the price were zero. Similarly, `qSFunc(0)` returns 0 because neither seller will sell for a price of zero, both want more.
+buy 1 unit, for a total of 2 units,  if the price were zero. Similarly, `qSFunc(0)` returns 0 because neither seller will sell for a price of zero.
 
 Now to search for a Walrasian Competitive Equilibirum Price Range between prices of 0 and 500, with a tolerance of 1 price unit, execute:
 
