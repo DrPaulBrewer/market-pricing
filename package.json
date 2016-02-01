@@ -1,0 +1,35 @@
+{
+  "name": "market-pricing",
+  "version": "1.0.0",
+  "description": "algorithms for finding competitive equilibrium prices in microeconomics from functions or order queues",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drpaulbrewer/market-pricing.git"
+  },
+  "keywords": [
+    "prices",
+    "pricing",
+    "market",
+    "competitive-equlibrium",
+    "Walras",
+    "Marshall",
+    "tatonnement"
+  ],
+  "author": "drpaulbrewer@eaftc.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drpaulbrewer/market-pricing/issues"
+  },
+  "homepage": "https://github.com/drpaulbrewer/market-pricing#readme",
+  "devDependencies": {
+    "mocha": "^2.4.1",
+    "should": "^8.2.0"
+  },
+  "dependencies": {
+    "find-zero-range": "^2.0.2"
+  }
+}
