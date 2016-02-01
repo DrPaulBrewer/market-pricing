@@ -1,6 +1,6 @@
 {
   "name": "market-pricing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "algorithms for finding competitive equilibrium prices in microeconomics from functions or order queues",
   "main": "index.js",
   "scripts": {
