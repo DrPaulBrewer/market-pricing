@@ -97,7 +97,7 @@ of supply and the market is in competitive equilibrium.
 
 Notice how the prices of the excluded buyer and seller help set the limits of the range.  If the price were 250, Fred would buy, but there is no 2nd unit of supply at that price to sell to Fred.  If the price were 280, Alice would sell but there is no 2nd unit of demand at that price, no buyer to buy from Alice.   
 
-####marshallianCEPriceRange
+####Marshallian Competitive Equilibrium
 
 A **different** technique which yields reasonably consistent results is attributed to
 to Marshall and involves finding the intersection of supply and demand curves on
@@ -126,7 +126,7 @@ The upper bound is given bu the smaller of `inframarginalBuyPrice` and `extraMar
 
 If one or both of the extramarginal prices do not exist, the usage is still valid, and the undefined value is simply ignored in the formula.
 
-####cross
+####Call Markets: Crossing Order Queues to obtain CE price and trades
 
 The `marketPricing.cross(buyQueue,sellQueue,bpCol,bqCol,spCol,sqCol)` function, on success, returns a 4 element array: [price, totalQuantity, buyQuantityArray, sellQuantityArray]
 where the buyQuantityArray and sellQuantityArrays provide the quantities traded from individual orders in buyQueue and sellQueue.
@@ -162,7 +162,7 @@ The result means that the price is 265, total quantity traded is 1, trading 1 un
 
 Note that the price of 265 was obtained from the midpoint of the Marshllian price range calculation, but also matches the midpoint of the earlier Walrasian method.
 
-####sequential
+####Sequential Markets: Finding the trades from a single order
 
 The `marketPricing.sequential(buyQueue,sellQueue,tCol,bpCol,bqCol,spCol,sqCol)` is used to check for prices and traded quantities after each single order.
 
