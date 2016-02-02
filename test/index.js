@@ -145,6 +145,9 @@ describe('marketPricing', function(){
 	});
     });
     describe('cross', function(){
+	it('should throw if column index parameters are omitted', function(){
+	    marketPricing.cross.bind({},[],[]).should.throw();
+	});
 	it('should return undefined for Buy [] Sell []', function(){
 	    assert.ok(marketPricing.cross([],[],1,0,1,0)===undefined);
 	});
@@ -196,6 +199,9 @@ describe('marketPricing', function(){
 	   });
     });
     describe('sequential', function(){
+	it('should throw if column index parameters are omitted', function(){
+	    marketPricing.sequential.bind({},[],[]).should.throw();
+	});
 	it('should return undefined for Buy [] Sell []', function(){
             assert.ok(marketPricing.sequential([],[],0,2,1,2,1)===undefined);
         });

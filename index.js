@@ -117,7 +117,7 @@ function sequential(buyQueue,sellQueue,tCol,bpCol,bqCol,spCol,sqCol){
 	(bqCol===undefined) ||
 	(spCol===undefined) ||
 	(sqCol===undefined))
-	throw new Error("marketPricing.cross: missing 1 or more col parameters: "+([tCol,bpCol,bqCol,spCol,sqCol].join(",")));
+	throw new Error("marketPricing.sequential: missing 1 or more col parameters: "+([tCol,bpCol,bqCol,spCol,sqCol].join(",")));
     var totalQ,prices,buyQ,sellQ,i,l,op; 
     if ((!buyQueue.length) || 
 	(!sellQueue.length) ||
