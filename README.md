@@ -1,6 +1,8 @@
 market-pricing
 =====
 [![Build Status](https://travis-ci.org/DrPaulBrewer/market-pricing.svg?branch=master)](https://travis-ci.org/DrPaulBrewer/market-pricing)
+[![Coverage Status](https://coveralls.io/repos/github/DrPaulBrewer/market-pricing/badge.svg?branch=master)](https://coveralls.io/github/DrPaulBrewer/market-pricing?branch=master)
+
 
 #### Copyright 2016 Paul Brewer, Economic & Financial Technology Consulting LLC <drpaulbrewer@eaftc.com>
 
