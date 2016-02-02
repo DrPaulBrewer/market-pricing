@@ -1,5 +1,6 @@
 market-pricing
 =====
+[![Build Status](https://travis-ci.org/DrPaulBrewer/market-pricing.svg?branch=master)](https://travis-ci.org/DrPaulBrewer/market-pricing)
 
 #### Copyright 2016 Paul Brewer, Economic & Financial Technology Consulting LLC <drpaulbrewer@eaftc.com>
 
