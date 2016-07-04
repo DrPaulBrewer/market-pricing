@@ -144,6 +144,40 @@ describe('marketPricing', function(){
 	    });
 	});
     });
+
+
+    describe('crossSingleUnitDemandAndSupply', function(){
+	var cross1 = marketPricing.crossSingleUnitDemandAndSupply;
+	it('should throw if parameter(s) missing', function(){
+	    cross1.bind({}).should.throw();
+	    cross1.bind({},[]).should.throw();
+	    cross1.bind({},undefined,[]).should.throw();
+	});
+	it('should return undefined for one or both empty arrays',function(){
+	    assert.ok(cross1([],[10,20,30])===undefined);
+	    assert.ok(cross1([30,20,10],[])===undefined);
+	});
+
+	var testcases = [
+	    [ { p: [20,30], q:0}, [20], [30] ], // no trade, price represents bid-ask spread
+	    [ { p: [150,160], q:0}, [150,140], [160, 200] ], // still no trade	 
+	    [ { p: [100,110], q:1}, [110], [100] ], // single trade, inframarginal determine price range
+	    [ { p: [200,220], q:5}, [300,250,250,240,240,200,180,150], [100,150,175,190,190,220,230,250] ], // extramarginals determine price range
+	    [ { p: 22, q:[3,7]}, [40,30,22,22,22,22,22,20,10], [10,15,20,22,22,22,22,30] ], // horizontal intersection, point price, range of q
+	    [ { p:50, q:3 },  [50, 50, 50, 50, 50 ] , [20, 30, 40, 60, 70, 80] ], // horizontal demand creates point intersection
+	    [ { p:100, q:4 }, [300,200,150,125,75,50], [100,100,100,100,100,100] ] // horizontal supply creates point intersection
+	];
+	
+	testcases.forEach(function(T){
+	    it('should return '+JSON.stringify(T[0])+' for buyPrices '+JSON.stringify(T[1])+' sellPrices '+JSON.stringify(T[2]),
+	       function(){
+		   cross1(T[1],T[2]).should.deepEqual(T[0]);
+	       });
+	});
+	    
+    });
+
+
     describe('cross', function(){
 	it('should throw if column index parameters are omitted', function(){
 	    marketPricing.cross.bind({},[],[]).should.throw();
@@ -290,17 +324,35 @@ describe('marketPricing', function(){
 			  Math.floor(p0+(p1-p0)*Math.random())];
 	};
 	var buyQueue=buyOrder.slice();
-	buyQueue.sort(function(a,b){ return b[2]-a[2];});
+	buyQueue.sort(function(a,b){ return +b[2]-a[2];});
 	var sellQueue=sellOrder.slice();
-	sellQueue.sort(function(a,b){ return a[3]-b[3];});
+	sellQueue.sort(function(a,b){ return +a[3]-b[3];});
 	var qD = marketPricing.demandFromQueue(buyQueue,2,1);
 	var qS = marketPricing.supplyFromQueue(sellQueue,3,1);
 	var wPrices = marketPricing.walrasianCEPriceRange(p0,p1,1,qD,qS);
 	var wPrice = (wPrices.length==2)?((wPrices[0]+wPrices[1])/2):(wPrices[0]);
 	var crossResult = marketPricing.cross(buyQueue,sellQueue,2,1,3,1);
-		it('should have cross price between p0 and p1', function(){
+	it('should have cross price between p0 and p1', function(){
 	    assert.ok(crossResult[0]>p0);
 	    assert.ok(crossResult[0]<p1);
+	});
+	// serialize sorted queues to single units and try crossSingleUnitDemandAndSupply for comparison
+	var demandPrices=[], supplyPrices=[];
+	buyQueue.forEach(function(B){
+	    var q=B[1],p=B[2];
+	    Array.prototype.push.apply(demandPrices, Array(q).fill(p));
+	});
+	
+	sellQueue.forEach(function(S){
+	    var q=S[1],p=S[3];
+	    Array.prototype.push.apply(supplyPrices, Array(q).fill(p));
+	});
+	var ce = marketPricing.crossSingleUnitDemandAndSupply(demandPrices,supplyPrices);
+	it('should have defined ce with p,q properties and proper types', function(){
+	    ce.should.have.properties('p','q');
+	    assert.ok(typeof(ce.p)==='number' || Array.isArray(ce.p));
+	    assert.ok(typeof(ce.q)==='number' || Array.isArray(ce.q));
+	    assert.ok( !(Array.isArray(ce.p) && Array.isArray(ce.q)) );  //only one of p,q can be array
 	});
 	it('should have positive cross total quantity', function(){
 	    assert.ok(crossResult[1]>0);
@@ -309,6 +361,20 @@ describe('marketPricing', function(){
 	   function(){
 	       assert.ok(Math.abs(wPrice-crossResult[0])<=1);
 	   });
+	it('should have  crossPrice within ce price from single unit calculation', function(){
+	    if (typeof(ce.p)==='number'){
+		crossResult[0].should.equal(ce.p);
+	    } else if(Array.isArray(ce.p)){
+		crossResult[0].should.be.within(ce.p[0],ce.p[1]);
+	    }
+	});
+	it('should have cross quantity equal upper limit of ce quantity', function(){
+	    if (Array.isArray(ce.q)){
+		crossResult[1].should.equal(ce.q[1]);
+	    } else {
+		crossResult[1].should.equal(ce.q);
+	    }
+	});
 	it('should have cross total quantity equal sum of buy quantities',
 	   function(){
 	       var totalQ = crossResult[1];

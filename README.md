@@ -131,6 +131,10 @@ If one or both of the extramarginal prices do not exist, the usage is still vali
 
 ####Call Markets: Crossing Order Queues to obtain CE price and trades
 
+The `marketPricing.crossSingleUnitDemandAndSupply(buyPrices, sellPrices)` function, on success, returns an object `{p: [p0,p1] or number, q: [q0,q1] or number}` representing 
+the competitive equilibrium price or price range p, and competitive equilibrium quantity or quantity range q, treating the sorted numeric input arrays `buyPrices` and `sellPrices`
+as single units of demand or supply at the given prices.
+
 The `marketPricing.cross(buyQueue,sellQueue,bpCol,bqCol,spCol,sqCol)` function, on success, returns a 4 element array: [price, totalQuantity, buyQuantityArray, sellQuantityArray]
 where the buyQuantityArray and sellQuantityArrays provide the quantities traded from individual orders in buyQueue and sellQueue.
 

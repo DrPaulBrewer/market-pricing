@@ -64,6 +64,43 @@ function marshallianCEPriceRange(inframarginalBuyPrice,
 
 module.exports.marshallianCEPriceRange = marshallianCEPriceRange;
 
+function crossSingleUnitDemandAndSupply(buyPrices,sellPrices){
+    'use strict';
+    var l=Math.min(buyPrices.length,sellPrices.length),q0=0,q1=0;
+    var ceIntersection;
+    if (l>0){
+	while( (q0<l) && (buyPrices[q0]>sellPrices[q0]) )
+	    q0++;
+	q1=q0;
+	while( (q1<l) && (buyPrices[q1]>=sellPrices[q1]) )
+	    q1++;
+	if (q1===0){
+	    ceIntersection = {
+		p: [buyPrices[0],sellPrices[0]],
+		q: 0
+	    };
+	} else {
+	    if (q1>q0){
+		/* in this case, buyPrices[j]===sellPrices[j] at q0<=j<q1 */
+		ceIntersection = {
+		    p: buyPrices[q1-1],
+		    q: [q0,q1]
+		};
+	    } else if (q1===q0) {    
+		ceIntersection = {
+		    p: marshallianCEPriceRange(buyPrices[q1-1],sellPrices[q1-1],buyPrices[q1],sellPrices[q1]),
+		    q: q0 
+		};
+		if (ceIntersection.p[0]===ceIntersection.p[1])
+		    ceIntersection.p = ceIntersection.p[0];
+	    }
+	}
+	return ceIntersection;
+    }
+}
+
+module.exports.crossSingleUnitDemandAndSupply = crossSingleUnitDemandAndSupply;
+
 function cross(buyQueue,sellQueue,bpCol,bqCol,spCol,sqCol){
     'use strict';
     if ((bpCol===undefined) || 
