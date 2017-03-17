@@ -21,7 +21,7 @@ A building block for
 
 
 
-##Installation
+## Installation
 
     npm install market-pricing --save
 
@@ -29,7 +29,7 @@ A building block for
 
     var marketPricing = require('market-pricing');
 
-###Data Requirements
+### Data Requirements
 
 Most functions require economically pre-sorted arrays of buy and sell orders.
 That is, buy orders should be sorted price descending, highest price first.
@@ -50,9 +50,9 @@ Example:
     // sue will sell 1 at price of 200, alice will sell 1 at price of 280
     var sellerList = [['sue',1,200],['alice',1,280]];
     
-###Functionality
+### Functionality
 
-####Walrasian Tantonnement 
+#### Walrasian Tantonnement 
 
 Walrasian Tatonnement is a price-search procedure often attributed to
 Walras, whereby the price is raised if there is excess demand, and lowered if
@@ -100,7 +100,7 @@ of supply and the market is in competitive equilibrium.
 
 Notice how the prices of the excluded buyer and seller help set the limits of the range.  If the price were 250, Fred would buy, but there is no 2nd unit of supply at that price to sell to Fred.  If the price were 280, Alice would sell but there is no 2nd unit of demand at that price, no buyer to buy from Alice.   
 
-####Marshallian Competitive Equilibrium
+#### Marshallian Competitive Equilibrium
 
 A **different** technique which yields reasonably consistent results is attributed to
 to Marshall and involves finding the intersection of supply and demand curves on
@@ -129,7 +129,7 @@ The upper bound is given bu the smaller of `inframarginalBuyPrice` and `extraMar
 
 If one or both of the extramarginal prices do not exist, the usage is still valid, and the undefined value is simply ignored in the formula.
 
-####Call Markets: Crossing Order Queues to obtain CE price and trades
+#### Call Markets: Crossing Order Queues to obtain CE price and trades
 
 The `marketPricing.crossSingleUnitDemandAndSupply(buyPrices, sellPrices)` function, on success, returns an object `{p: [p0,p1] or number, q: [q0,q1] or number}` representing 
 the competitive equilibrium price or price range p, and competitive equilibrium quantity or quantity range q, treating the sorted numeric input arrays `buyPrices` and `sellPrices`
@@ -169,7 +169,7 @@ The result means that the price is 265, total quantity traded is 1, trading 1 un
 
 Note that the price of 265 was obtained from the midpoint of the Marshllian price range calculation, but also matches the midpoint of the earlier Walrasian method.
 
-####Sequential Markets: Finding the trades from a single order
+#### Sequential Markets: Finding the trades from a single order
 
 The `marketPricing.sequential(buyQueue,sellQueue,tCol,bpCol,bqCol,spCol,sqCol)` is used to check for prices and traded quantities after each single order.
 
