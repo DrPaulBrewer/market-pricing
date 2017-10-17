@@ -1,5 +1,7 @@
 market-pricing
 =====
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/DrPaulBrewer/market-pricing.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/DrPaulBrewer/market-pricing.svg?branch=master)](https://travis-ci.org/DrPaulBrewer/market-pricing)
 [![Coverage Status](https://coveralls.io/repos/github/DrPaulBrewer/market-pricing/badge.svg?branch=master)](https://coveralls.io/github/DrPaulBrewer/market-pricing?branch=master)
 
