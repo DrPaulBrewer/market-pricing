@@ -34,6 +34,6 @@
     "should": "^13.0.0"
   },
   "dependencies": {
-    "find-zero-range": "^2.0.7"
+    "find-zero-range": "^3.0.0"
   }
 }
