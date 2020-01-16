@@ -28,12 +28,11 @@
   "homepage": "https://github.com/drpaulbrewer/market-pricing#readme",
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "should": "^13.0.0"
   },
   "dependencies": {
-    "find-zero-range": "^2.0.7"
+    "find-zero-range": "^3.0.0"
   }
 }
