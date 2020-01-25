@@ -71,34 +71,35 @@ function crossSingleUnitDemandAndSupply(buyPrices, sellPrices) {
     q0 = 0,
     q1 = 0;
   let ceIntersection;
+  function mcMinusMV(q){ return (q<l)?(sellPrices[q]-buyPrices[q]): +Infinity; }
   if (l > 0) {
-    while ((q0 < l) && (buyPrices[q0] > sellPrices[q0]))
-      q0++;
-    q1 = q0;
-    while ((q1 < l) && (buyPrices[q1] >= sellPrices[q1]))
-      q1++;
-    if (q1 === 0) {
+    [q0,q1] = findZeroRange(0,l,1,mcMinusMV);
+    if (q0===undefined) {
       ceIntersection = {
         p: [buyPrices[0], sellPrices[0]],
         q: 0
       };
-    } else if (q1 > q0) {
+    } else {
+      if (q1===undefined) q1=q0;
+      if (buyPrices[q0]===sellPrices[q0]) q0-=1;
+      if (q1 > q0) {
 
       /* in this case, buyPrices[j]===sellPrices[j] at q0<=j<q1 */
 
-      ceIntersection = {
-        p: buyPrices[q1 - 1],
-        q: [q0, q1]
-      };
-    } else if (q1 === q0) {
-      ceIntersection = {
-        p: marshallianCEPriceRange(buyPrices[q1 - 1], sellPrices[q1 - 1], buyPrices[q1], sellPrices[q1]),
-        q: q0
-      };
-      if (ceIntersection.p[0] === ceIntersection.p[1])
-        ceIntersection.p = ceIntersection.p[0];
-    } else {
-      throw new Error("market-pricing, crossSingleUnitDemandAndSupply: impossible condition");
+        ceIntersection = {
+          p: buyPrices[q1],
+          q: [q0+1, q1+1]
+        };
+      } else if (q1 === q0) {
+        ceIntersection = {
+          p: marshallianCEPriceRange(buyPrices[q1], sellPrices[q1], buyPrices[q1+1], sellPrices[q1+1]),
+          q: q0+1
+        };
+        if (ceIntersection.p[0] === ceIntersection.p[1])
+          ceIntersection.p = ceIntersection.p[0];
+      } else {
+        throw new Error("market-pricing, crossSingleUnitDemandAndSupply: impossible condition");
+      }
     }
     return ceIntersection;
   }

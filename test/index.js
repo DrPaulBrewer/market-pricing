@@ -211,6 +211,10 @@ describe('marketPricing', function () {
         [110],
         [100]
       ], // single trade, inframarginal determine price range
+      [{ p: 200, q:[0,1] },
+        [200],
+        [200]
+      ], // maybe a single unit trade, zero trade also compatible
       [{ p: [200, 220], q: 5 },
         [300, 250, 250, 240, 240, 200, 180, 150],
         [100, 150, 175, 190, 190, 220, 230, 250]
@@ -223,10 +227,26 @@ describe('marketPricing', function () {
         [50, 50, 50, 50, 50],
         [20, 30, 40, 60, 70, 80]
       ], // horizontal demand creates point intersection
+      [{ p: 50, q: [3,4] },
+        [50, 50, 50, 50, 50],
+        [20, 30, 40, 50, 60, 70, 80]
+      ], // horizontal demand with horizontal intersection
       [{ p: 100, q: 4 },
         [300, 200, 150, 125, 75, 50],
         [100, 100, 100, 100, 100, 100]
-      ] // horizontal supply creates point intersection
+      ], // horizontal supply creates point intersection
+      [{ p: 100, q: [4,5] },
+        [300, 200, 150, 125, 100, 50],
+        [100, 100, 100, 100, 100, 100]
+      ], // horizontal supply with horizontal intersection
+      [{ p: 100, q: [4,6] },
+        [300, 200, 150, 125, 100, 100, 50],
+        [100, 100, 100, 100, 100, 100, 100]
+      ], // horizontal supply with horizontal intersection
+      [{ p: 100, q: [4,7] },
+        [300, 200, 150, 125, 100, 100, 100, 50],
+        [100, 100, 100, 100, 100, 100, 100, 100]
+      ] // horizontal supply with horizontal intersection
     ];
 
     testcases.forEach(function (T) {
